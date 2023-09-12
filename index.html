@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="global.css">
+    <script src="https://kit.fontawesome.com/0d7a458351.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <main>
+        <h1>gør noget</h1>
+
+        <h3>Hvad skal du gøre, og hvor vigtigt er det fra 1-10?</h3>
+
+        <div class="input">
+            <div>
+                <input type="text">
+                <input type="number" min="0" max="10">
+
+            </div>
+            <i id="add" class="fa-solid fa-circle-plus fa-lg"></i>
+        </div>
+        <div id="list">
+        </div>
+        <h2>Har gjort</h2>
+        <div id="donelist">
+        </div>
+    </main>
+    <template id="item">
+        <div class="item">
+            <p>text</p>
+            <div>
+                <i id="done" class="fa-solid fa-face-smile fa-lg"></i>
+                <i id="ud" class="fa-solid fa-face-frown fa-lg"></i>
+            </div>
+        </div>
+    </template>
+    <script src="script.js"></script>
+</body>
+
+</html>
