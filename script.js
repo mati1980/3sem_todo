@@ -24,7 +24,7 @@ const text = document.querySelector('[type="text"]');
 const number = document.querySelector('[type="number"]');
 
 function knapKlik() {
-  console.log(text.value);
+  console.log(text.value + number.value);
   const myObj = {};
   myObj.indhold = text.value;
   myObj.number = number.value;
