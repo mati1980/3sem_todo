@@ -9,11 +9,13 @@ function start() {
 
   // Retrieving the string
   let retString = localStorage.getItem("myArr");
-
+  console.log("LS", retString === null);
+  if (retString !== null) {
+    console.log("DER ER NOGET I LS");
+    myArr = JSON.parse(retString);
+    displayList(myArr);
+  }
   // Retrieved array
-  myArr = JSON.parse(retString);
-
-  displayList(myArr);
 }
 
 const knap = document.querySelector("#add");
