@@ -2,42 +2,32 @@
 
 window.addEventListener("DOMContentLoaded", start);
 
+//definerer tomt array
 let myArr = [];
 
+//start funktion når siden loader
 function start() {
   console.log("ready");
 
   // Retrieving the string
   let retString = localStorage.getItem("myArr");
-  console.log("LS", retString === null);
+
   if (retString !== null) {
-    console.log("DER ER NOGET I LS");
+    // Retrieved array
     myArr = JSON.parse(retString);
     displayList(myArr);
   }
-  // Retrieved array
 }
 
+//sætter eventlistener på plus ikonet
 const knap = document.querySelector("#add");
-
 knap.addEventListener("click", knapKlik);
 
+//opretter konstanter for inputfelterne
 const text = document.querySelector('[type="text"]');
 const number = document.querySelector('[type="number"]');
 
-function knapKlik() {
-  console.log(text.value + number.value);
-  const myObj = {};
-  myObj.indhold = text.value;
-  myObj.number = number.value;
-  myObj.id = myArr.length;
-
-  myArr.push(myObj);
-
-  displayList(myArr);
-}
-
-//enter keypress
+//gør så man kan bruge enter keypress
 document.addEventListener("keypress", function (e) {
   if (e.key === "Enter") {
     const task = document.querySelector("input").value;
@@ -46,46 +36,68 @@ document.addEventListener("keypress", function (e) {
   }
 });
 
+//knapKlik funktion kaldes når knappen bliver klikket på, eller når man trykker enter
+function knapKlik() {
+  console.log(text.value + number.value);
+
+  //opretter tomt objekt
+  const myObj = {};
+
+  //opretter parametre for objektet med value fra inputfelterne samt et id
+  myObj.indhold = text.value;
+  myObj.number = number.value;
+  myObj.id = myArr.length;
+
+  //pusher myObj ind i myArr
+  myArr.push(myObj);
+
+  //kalder funktionen der viser arrayet
+  displayList(myArr);
+}
+
+//displayList viser arrayet
 function displayList(array) {
   /////
   //local storage
   let string = JSON.stringify(myArr);
   localStorage.setItem("myArr", string);
   /////
-  // clear the list
+
+  // tømmer listen
   document.querySelector("#list").innerHTML = "";
   document.querySelector("#donelist").innerHTML = "";
 
-  // build a new list
+  // bygger ny liste
   array.forEach((item) => {
-    // create clone
+    // opretter en klon
     const clone = document.querySelector("template#item").content.cloneNode(true);
 
-    // set clone data
+    // laver klon data
     clone.querySelector("p").textContent = item.number + " " + item.indhold;
     clone.querySelector(".item").id = item.id;
     clone.querySelector("#done").addEventListener("click", doneListe);
-    clone.querySelector("#ud").addEventListener("click", sletListe);
+    clone.querySelector("#ud").addEventListener("click", sletObjekt);
     clone.querySelector("#ud").id = item.id;
+
+    //doneListe kaldes når man klikker gladsmiley
     function doneListe() {
-      console.log("noget er gjort");
+      //fungerer som toggle
       item.done = !item.done;
 
+      //kalder funktionen der viser arrayet
       displayList(myArr);
-      console.log("array", myArr);
     }
 
-    function sletListe() {
-      console.log("noget skal slettes");
+    //sletObjekt kaldes når man klikker sursmiley
+    function sletObjekt() {
+      //sætter myArr til hvad der bliver returneret fra funktionen removeObj
       myArr = removeObj(myArr, item.id);
+
+      //kalder funktionen der viser arrayet
       displayList(myArr);
     }
 
-    // append clone to list
-
-    //HJÆLP MIG
-
-    console.log("filtrer nu");
+    // appender klonen i en if-sætning til enten todo- eller donelisten ud fra om done=true på objektet
     if (item.done === true) {
       document.querySelector("#donelist").appendChild(clone);
     } else {
@@ -95,7 +107,10 @@ function displayList(array) {
 }
 
 function removeObj(arr, id) {
+  //finder indexet for objektet med det givne id
   const indexObjId = arr.findIndex((obj) => obj.id === id);
+  //bruger det fundne index til at fjerne objektet fra arrayet vha splice
   arr.splice(indexObjId, 1);
+  //returnerer arrayet
   return arr;
 }
